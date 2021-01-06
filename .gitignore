@@ -1,0 +1,6 @@
+.venv_py2/
+.venv_py3/
+.ipynb_checkpoints/
+__pycache__/
+gfft_install/
+.vscode/
