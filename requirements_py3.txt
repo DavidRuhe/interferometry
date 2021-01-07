@@ -1,7 +1,6 @@
 jupyterlab
 jupyterlab-lsp
 python-language-server[all]
-numpy
-pytz
-rms
-astropy
+torch==1.7.1+cu110 
+torchvision==0.8.2+cu110 
+scipy
