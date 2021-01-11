@@ -4,3 +4,5 @@
 __pycache__/
 gfft_install/
 .vscode/
+.virtual_documents/
+data/

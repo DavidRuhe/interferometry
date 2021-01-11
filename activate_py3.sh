@@ -17,5 +17,6 @@ fi
 
 pip -q install -r requirements_py3.txt -f https://download.pytorch.org/whl/torch_stable.html
 
-export PYTHONPATH='.'
-export JUPYTER_PATH='.'
+cd src/
+export PYTHONPATH=$(pwd)
+export JUPYTER_PATH=$(pwd)
