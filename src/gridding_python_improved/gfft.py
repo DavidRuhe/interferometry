@@ -568,17 +568,21 @@ def gfft(inp, in_ax=[], out_ax=[], ftmachine='fft', in_zero_center=True, \
         if do_preshift:
             inp_grid = np.fft.fftshift(inp_grid, axes=preshift_axes)
 
+        print(do_fft)
         if do_fft:
             out = np.fft.fftn(inp_grid, axes=fftaxes)
         else:
             out = inp_grid.copy()
 
+        print(do_ifft)
         if do_ifft:
             out = np.fft.ifftn(out, axes=ifftaxes)
 
         # shift
+        print(do_postshift)
         if do_postshift:
             out = np.fft.fftshift(out, axes=postshift_axes)
+
 
         # crop & grid correct
         if N == 1:
@@ -595,6 +599,7 @@ def gfft(inp, in_ax=[], out_ax=[], ftmachine='fft', in_zero_center=True, \
             xl = 0
             yl = 0
 
+            print(do_postshift)
             if do_postshift:
                 if postshift_axes == None:
                     xl = tndxx

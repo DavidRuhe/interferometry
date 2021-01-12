@@ -1,0 +1,6 @@
+resolution: 2300
+alpha: 1.5
+W: 6
+hermitian_symmetry_u: true
+hermitian_symmetry_v: true
+device: 'cpu'

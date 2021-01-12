@@ -52,11 +52,14 @@ def grid_1d_from_2dii(x, vis, dx, W, beta, y):
     visval = vis
     xval = x
     yval = y
+    print(xval.dtype)
     xref = np.ceil((xval - 0.5*W*dx)/dx)*dx
     xndx = np.arange(W)
 
     xg = xref + xndx * dx
+    print(xg.dtype, xval.dtype)
     gcf_val = gcf_kaiseri(xg - xval, Dx, beta)
+    gcf_val.dtype
     
     vis2 = np.matmul(visval[:, :, None], gcf_val[:, None, :])
     vis2 = vis2.reshape(nvis, -1)
@@ -65,18 +68,23 @@ def grid_1d_from_2dii(x, vis, dx, W, beta, y):
     return x2, vis2, y2
 
 def grid_2dii(u, v, vis, du, Nu, umin, dv, Nv, vmin, alpha, W, hflag_u, hflag_v):
-    
+
     beta = np.array([get_beta(W, alpha)])
-    
+
     tu1, tvis1, tv1 = grid_1d_from_2dii(u[:, None], vis[:, None], du, W, beta, v[:, None])
+    print(tv1.dtype)
     tv2, tvis2, tu2 = grid_1d_from_2dii(tv1, tvis1, dv, W, beta, tu1) # output arrays
+
+    print(tv2.sum(), tvis2.sum(), tu2.sum())
     
     ug = tu2.ravel()
     vg = tv2.ravel()
     visg = tvis2.ravel()
-    
-#     print(ug, vg, visg)
-    
+
+    print(ug[0], ug[-1])
+    print(visg[0], visg[-1])
+    print(vg[0], vg[-1])
+
 
     gvi = np.zeros((Nu, Nv), dtype=complex) #output array
 
@@ -86,6 +94,8 @@ def grid_2dii(u, v, vis, du, Nu, umin, dv, Nv, vmin, alpha, W, hflag_u, hflag_v)
     mask = ((undxi >= 0) & (undxi < Nu)) & ((vndxi >= 0) & (vndxi < Nv))
 
     np.add.at(gvi, (undxi[mask], vndxi[mask]), visg[mask])# print(gv.sum())
+
+    print(gvi.sum())
     if hflag_u or hflag_v:
         if hflag_u:
             undxi = ((-1.*ug - umin)/du + 0.5).astype(int)
@@ -99,7 +109,7 @@ def grid_2dii(u, v, vis, du, Nu, umin, dv, Nv, vmin, alpha, W, hflag_u, hflag_v)
         np.add.at(gvi, (undxi[mask], vndxi[mask]), visg.conjugate()[mask])
         
         
-#     print(gvi.sum(), 'sum')
+    print(gvi.sum(), 'sum')
 #     return ug, vg, visg, gvi
     return gvi
     
